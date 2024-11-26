@@ -26,7 +26,8 @@ int main(int argc, char **argv)
     fd = open(argv[1], O_RDONLY);
     if (fd == -1)
         return (0);
-    allocate_memory_and_set_memory(matrix, matrix_numbers, fd);
+    allocate_memory_and_set_memory(&matrix, matrix_numbers, fd);
+    //free matrix numbers int and poinetrs
     close(fd);
     return (0);
 }

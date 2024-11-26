@@ -27,6 +27,8 @@ typedef struct m_info
 int     check_file_extension(char *filename);
 void    free_split_arrays(char **filename_extension);
 void    allocate_memory();
-void    allocate_memory_and_set_memory(t_matrix_info *matrix, int **matrix_numbers, int fd);
+void    allocate_memory_and_set_memory(t_matrix_info **matrix, int **matrix_numbers, int fd);
+void    set_width_matrix(t_matrix_info **matrix, int fd);
+void    set_length_matrix(t_matrix_info **matrix, int fd);
 
 #endif
