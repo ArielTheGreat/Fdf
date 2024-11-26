@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha <frocha@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/26 11:48:03 by frocha            #+#    #+#             */
-/*   Updated: 2024/11/26 11:48:04 by frocha           ###   ########.fr       */
+/*   Created: 2024/11/26 12:14:29 by frocha            #+#    #+#             */
+/*   Updated: 2024/11/26 12:14:30 by frocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "fdf.h"
 
-int main(int argc, char **argv)
+void free_split_arrays(char **filename_extension)
 {
-    int fd;
-    if (argc > 2 || check_file_extension(argv[1]) == 0)
-        return (0);
+    int i;
 
-    fd = open(argv[1], O_RDONLY);
-    close(fd);
-    printf("%s",check_file_extension(argv[1]));
+    i = 0;
+    while(filename_extension[i])
+    {
+        free(filename_extension[i]);
+        i++;
+    }
+    free(filename_extension);
 }
