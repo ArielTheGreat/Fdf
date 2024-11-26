@@ -34,7 +34,7 @@ void    set_width_matrix(t_matrix_info **matrix, int fd)
     while(words[i])
         i++;
     (*matrix)->width = i;
-    free(words);
+    free_split_arrays(words);
 }
 
 void allocate_memory(t_matrix_info **matrix, int **matrix_numbers)
@@ -52,7 +52,25 @@ void allocate_memory(t_matrix_info **matrix, int **matrix_numbers)
 
 void set_numbers_for_matrix(t_matrix_info **matrix, int **matrix_numbers, int fd)
 {
-    
+    int i;
+    int j;
+    char *line;
+    char **words;
+
+    i = 0;
+    while(i < (*matrix)->length)
+    {
+        j = 0;
+        line = get_next_line(fd);
+        words = ft_split(line, ' ');
+        while(words[j])
+        {
+            matrix_numbers[i][j] = ft_atoi(words[j]);
+            j++;
+        }
+        free_split_arrays(words);
+        i++;
+    }
 }
 
 void    allocate_memory_and_set_memory(t_matrix_info **matrix, int **matrix_numbers, int fd)
