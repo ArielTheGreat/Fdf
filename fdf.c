@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "fdf.h"
 
 int main(int argc, char **argv)
@@ -21,5 +20,6 @@ int main(int argc, char **argv)
 
     fd = open(argv[1], O_RDONLY);
     close(fd);
-    printf("%s",check_file_extension(argv[1]));
+    printf("%s",argv[1]);
+    return (0);
 }

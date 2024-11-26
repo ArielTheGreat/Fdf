@@ -13,7 +13,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = check_file_extension.c fdf.c free_functions.c
+SRCS = fdf.c check_file_extension.c free_functions.c
 
 OBJS = ${SRCS:.c=.o}
 INCLUDE		=	-I.
@@ -26,5 +26,15 @@ $(NAME): ${OBJS}
 
 all: $(NAME)
 
+clean:
+	@make clean -C ./libft
+	@rm -f ${OBJS}
 
-.PHONY: all clean fclean
+fclean: clean
+	@make fclean -C ./libft
+	@rm -f ${NAME}
+
+re: fclean all
+
+
+.PHONY: all clean fclean re
