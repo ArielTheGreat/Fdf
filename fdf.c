@@ -17,6 +17,8 @@ int main(int argc, char **argv)
     int fd;
     t_matrix_info *matrix;
     int **matrix_numbers;
+    char *line;
+    int i;
 
     matrix_numbers = NULL;
     matrix = malloc(sizeof(t_matrix_info));
@@ -24,10 +26,19 @@ int main(int argc, char **argv)
         return (0);
 
     fd = open(argv[1], O_RDONLY);
-    if (fd == -1)
-        return (0);
-    allocate_memory_and_set_memory(&matrix, matrix_numbers, fd);
-    //free matrix numbers int and poinetrs
+    allocate_memory_and_set_memory(&matrix, &matrix_numbers, fd);
     close(fd);
+    fd = open(argv[1], O_RDONLY);
+
+    i = 0;
+    while(i < matrix->length + 1)
+    {
+        line = get_next_line(fd);
+        printf("%s\n",line);
+        i++;
+    }
+
+    close(fd);
+    //free matrix numbers int and poinetrs
     return (0);
 }

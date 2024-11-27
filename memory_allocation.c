@@ -37,46 +37,72 @@ void    set_width_matrix(t_matrix_info **matrix, int fd)
     free_split_arrays(words);
 }
 
-void allocate_memory(t_matrix_info **matrix, int **matrix_numbers)
+void allocate_memory(int width, int length, int ***matrix_numbers)
 {
     int i;
 
     i = 0;
-    matrix_numbers = malloc(sizeof(int *) * (*matrix)->length);
-    while(i > (*matrix)->length)
+    *matrix_numbers = malloc(sizeof(int *) * length);
+    while(i < length)
     {
-        matrix_numbers[i] = malloc(sizeof(int) * (*matrix)->width);
+        (*matrix_numbers)[i] = malloc(sizeof(int) * width);
         i++;
     }
 }
 
-void set_numbers_for_matrix(t_matrix_info **matrix, int **matrix_numbers, int fd)
-{
-    int i;
-    int j;
-    char *line;
-    char **words;
+// void set_numbers_for_matrix(int length, int ***matrix_numbers, int fd)
+// {
+//     // int i;
+//     int j;
+//     char *line;
+//     char **words;
 
-    i = 0;
-    while(i < (*matrix)->length)
-    {
-        j = 0;
-        line = get_next_line(fd);
-        words = ft_split(line, ' ');
-        while(words[j])
-        {
-            matrix_numbers[i][j] = ft_atoi(words[j]);
-            j++;
-        }
-        free_split_arrays(words);
-        i++;
-    }
-}
+//     // i = 0;
+//     // while(i < length)
+//     // {
+//         j = 0;
+//         length = 2;
+//         line = get_next_line(fd);
+//         printf("%s\n",line);
+//         // if (!line) {
+//         //     perror("Error reading line from file");
+//         //     break;
+//         // }
+//         words = ft_split(line, ' ');
+//         free(line);
+//         while(words[j])
+//         {
+//             (*matrix_numbers)[0][j] = ft_atoi(words[j]);
+//             j++;
+//         }
+//         free_split_arrays(words);
+//     //     i++;
+//     // }
+// }
 
-void    allocate_memory_and_set_memory(t_matrix_info **matrix, int **matrix_numbers, int fd)
+void    allocate_memory_and_set_memory(t_matrix_info **matrix, int ***matrix_numbers, int fd)
 {
     set_width_matrix(matrix, fd);
     set_length_matrix(matrix, fd);
-    allocate_memory(matrix, matrix_numbers);
-    set_numbers_for_matrix(matrix, matrix_numbers, fd);
+    allocate_memory((*matrix)->width, (*matrix)->length + 1, matrix_numbers);
+    // set_numbers_for_matrix((*matrix)->length, matrix_numbers, fd);
+    // // int i;
+    // int j;
+    // j = 0;
+    // while(j < (*matrix)->width)
+    // {
+    //     printf("%i ",(*matrix_numbers)[0][j]);
+    //     j++;
+    // }
+    // while(i < (*matrix)->length - 1)
+    // {
+    //     j = 0;
+    //     while(j < (*matrix)->width)
+    //     {
+    //         printf("%i ",(*matrix_numbers)[i][j]);
+    //         j++;
+    //     }
+    //     printf("\n");
+    //     i++;
+    // }
 }
