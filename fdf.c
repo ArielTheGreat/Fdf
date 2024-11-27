@@ -12,6 +12,21 @@
 
 #include "fdf.h"
 
+void set_numbers(char *str, int **matrix_numbers)
+{
+    char **words;
+    int i;
+
+    words = ft_split(str,' ');
+    i = 0;
+    while(words[i])
+    {
+        (*matrix_numbers)[i] = ft_atoi(words[i]);
+        i++;
+    }
+    free_split_arrays(words);
+}
+
 int main(int argc, char **argv)
 {
     int fd;
@@ -29,16 +44,31 @@ int main(int argc, char **argv)
     allocate_memory_and_set_memory(&matrix, &matrix_numbers, fd);
     close(fd);
     fd = open(argv[1], O_RDONLY);
+    i = 0;
+    line = get_next_line(fd);
+    while(line)
+    {
+        set_numbers(line, &(matrix_numbers[i]));
+        i++;
+        line = get_next_line(fd);
+    }
+    close(fd);
+
+    int j;
 
     i = 0;
-    while(i < matrix->length + 1)
+    while(i < matrix->length+1)
     {
-        line = get_next_line(fd);
-        printf("%s\n",line);
+        j = 0;
+        while(j < matrix->width)
+        {
+            printf("%i ", matrix_numbers[i][j]);
+            j++;
+        }
+        printf("\n");
         i++;
     }
 
-    close(fd);
     //free matrix numbers int and poinetrs
     return (0);
 }
