@@ -30,5 +30,6 @@ void    allocate_memory(int width, int length, int ***matrix_numbers);
 void    allocate_memory_and_set_memory(t_matrix_info **matrix, int ***matrix_numbers, int fd);
 void    set_width_matrix(t_matrix_info **matrix, int fd);
 void    set_length_matrix(t_matrix_info **matrix, int fd);
+void    free_matrix(int **matrix_numbers, int length);
 
 #endif

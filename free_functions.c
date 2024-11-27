@@ -24,3 +24,10 @@ void free_split_arrays(char **filename_extension)
     }
     free(filename_extension);
 }
+
+void free_matrix(int **matrix_numbers, int length) {
+    for (int i = 0; i < length; i++) {
+        free(matrix_numbers[i]);
+    }
+    free(matrix_numbers);
+}
