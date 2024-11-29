@@ -20,9 +20,12 @@ INCLUDE		=	-I.
 
 NAME = fdf
 
-$(NAME): ${OBJS}
-	@make re -C ./libft
-	${CC} ${CFLAGS}  $^ ${INCLUDE} -Llibft -lft -o ${NAME}
+MLX42/build/libmlx42.a:
+	cd MLX42 && cmake -B build && make -C build -j4
+
+$(NAME): ${OBJS} MLX42/build/libmlx42.a
+	@make all -C ./libft
+	${CC} ${CFLAGS}  $^ ${INCLUDE} -Llibft -lft -LMLX42/build -lmlx42 -lglfw -lm -o ${NAME}
 
 all: $(NAME)
 
@@ -35,6 +38,5 @@ fclean: clean
 	@rm -f ${NAME}
 
 re: fclean all
-
 
 .PHONY: all clean fclean re
