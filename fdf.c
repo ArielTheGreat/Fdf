@@ -12,6 +12,28 @@
 
 #include "fdf.h"
 
+int convert_hex_to_int(char *color_element)
+{
+    int size_str;
+    char *hex_str;
+    int i;
+    int j;
+
+    size_str = ft_strlen(color_element);
+    hex_str = malloc(sizeof(char) * (size_str - 1));
+    i = 0;
+    j = 2;
+    while(i <= size_str - 2)
+    {
+        hex_str[i] = color_element[j];
+        i++;
+        j++;
+    }
+    // printf("%s\n", hex_str);
+    free(hex_str);
+    return (size_str);
+}
+
 int get_color_int(char *color_element)
 {
     int i;
@@ -19,9 +41,9 @@ int get_color_int(char *color_element)
     i = 0;
     if (color_element && ft_strlen(color_element) > 2)
     {
-        return (100);   
+        return (convert_hex_to_int(color_element));
     }
-    return (345);
+    return (DEFAULT_COLOR);
 }
 
 void set_numbers(char *str, t_map_node *matrix_row, int row)

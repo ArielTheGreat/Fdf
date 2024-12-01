@@ -21,6 +21,7 @@
 
 # define WIDTH				1920
 # define HEIGHT				1080
+# define DEFAULT_COLOR		16777215 //white
 
 typedef struct s_fdf
 {
