@@ -116,14 +116,15 @@ void process_file(const char *filename, t_map_node ***matrix_numbers)
     close(fd);
 }
 
-// t_fdf  *start_fdf()
-// {
-//     static t_fdf	fdf;
+t_fdf  *start_fdf()
+{
+    static t_fdf	fdf;
 
-//     fdf.mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
-//     fdf.canvas = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
-//     return (&fdf);
-// }
+    fdf.mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
+    fdf.canvas = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
+    mlx_image_to_window(fdf.mlx, fdf.canvas, 0, 0);
+    return (&fdf);
+}
 
 void print_matrix(t_map_node **matrix_numbers, t_matrix_info *matrix) {
     for (int i = 0; i < matrix->length; i++) {
@@ -136,7 +137,7 @@ void print_matrix(t_map_node **matrix_numbers, t_matrix_info *matrix) {
 
 int main(int argc, char **argv)
 {
-    // t_fdf		*fdf;
+    t_fdf		*fdf;
     t_matrix_info *matrix;
     t_map_node **array_struct_map;
 
@@ -144,11 +145,11 @@ int main(int argc, char **argv)
     matrix = malloc(sizeof(t_matrix_info));
     if (argc > 2 || check_file_extension(argv[1]) == 0)
         return (0);
-    // fdf = start_fdf();
     allocate_memory_and_set_memory(&matrix,  &array_struct_map, argv[1]);
     process_file(argv[1], &array_struct_map);
     print_matrix(array_struct_map, matrix);
-    // mlx_terminate(fdf->mlx);
+    fdf = start_fdf();
+    mlx_terminate(fdf->mlx);
     //free_matrix(array_struct_map, matrix->length + 1);
     free(matrix);
     return (0);
