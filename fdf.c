@@ -12,26 +12,31 @@
 
 #include "fdf.h"
 
+int get_index_hex(char character)
+{
+    char *hex_values;
+    int i;
+
+    hex_values = "0123456789ABCDEF";
+    i = 0;
+    while(hex_values[i] != character)
+        i++;
+    return (i);
+}
+
 int convert_hex_to_int(char *color_element)
 {
-    int size_str;
-    char *hex_str;
     int i;
-    int j;
+    int result;
 
-    size_str = ft_strlen(color_element);
-    hex_str = malloc(sizeof(char) * (size_str - 1));
-    i = 0;
-    j = 2;
-    while(i <= size_str - 2)
+    i = 2;
+    result = 1;
+    while(color_element[i] != '\0')
     {
-        hex_str[i] = color_element[j];
+        result = result * get_index_hex(color_element[i]);
         i++;
-        j++;
     }
-    // printf("%s\n", hex_str);
-    free(hex_str);
-    return (size_str);
+    return (result);
 }
 
 int get_color_int(char *color_element)
@@ -66,7 +71,7 @@ void set_numbers(char *str, t_map_node *matrix_row, int row)
         (matrix_row+i)->z_axis = ft_atoi(color_split[0]);
         (matrix_row+i)->color = get_color_int(color_split[1]);
         i++;
-        free(color_split);
+        free_split_arrays(color_split);
     }
     free_split_arrays(words);
 }
