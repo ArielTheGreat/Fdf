@@ -16,6 +16,7 @@
 # include "get_next_line/get_next_line.h"
 # include "libft/libft.h"
 # include <fcntl.h>
+# include <math.h>
 # include <stdio.h>
 # include "MLX42/include/MLX42/MLX42.h"
 

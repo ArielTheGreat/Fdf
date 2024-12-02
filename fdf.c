@@ -129,9 +129,107 @@ t_fdf  *start_fdf()
 void print_matrix(t_map_node **matrix_numbers, t_matrix_info *matrix) {
     for (int i = 0; i < matrix->length; i++) {
         for (int j = 0; j < matrix->width; j++) {
-            printf("%d,%d,%d,%d ", (&matrix_numbers[i][j])->x_axis, (&matrix_numbers[i][j])->y_axis, (&matrix_numbers[i][j])->z_axis, (&matrix_numbers[i][j])->color);
+            printf("%d,%d ", (&matrix_numbers[i][j])->x_axis, (&matrix_numbers[i][j])->y_axis);
         }
         printf("\n");
+    }
+}
+
+void iso_projection(int *x, int *y, int z)
+{
+    int prev_x = *x;
+    int prev_y = *y;
+    *x = (prev_x - prev_y) * cos(0.523599);
+    *y = (prev_x + prev_y) * sin(0.523599) - z;
+}
+
+void draw_line(t_fdf *fdf, int x0, int y0, int x1, int y1, int color)
+{
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = (x0 < x1) ? 1 : -1;
+    int sy = (y0 < y1) ? 1 : -1;
+    int err = dx - dy;
+
+    while (1)
+    {
+        mlx_put_pixel(fdf->canvas, x0, y0, color);
+        if (x0 == x1 && y0 == y1)
+            break;
+        int e2 = err * 2;
+        if (e2 > -dy)
+        {
+            err -= dy;
+            x0 += sx;
+        }
+        if (e2 < dx)
+        {
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
+
+void apply_isometric_to_each_struct(t_map_node **matrix, t_matrix_info *info)
+{
+    for (int i = 0; i < info->length; i++)
+    {
+        for (int j = 0; j < info->width; j++)
+        {
+            int x = matrix[i][j].x_axis;
+            int y = matrix[i][j].y_axis;
+            int z = matrix[i][j].z_axis;
+
+            iso_projection(&x, &y, z);
+
+            matrix[i][j].x_axis = x;
+            matrix[i][j].y_axis = y;
+        }
+    }
+}
+
+void draw_matrix(t_fdf *fdf, t_map_node **matrix, t_matrix_info *info)
+{
+    int scale = 20; 
+    int x_offset = WIDTH / 3;
+    int y_offset = HEIGHT / 4; 
+
+    for (int i = 0; i < info->length; i++)
+    {
+        for (int j = 0; j < info->width; j++)
+        {
+            int x0 = matrix[i][j].x_axis;
+            int y0 = matrix[i][j].y_axis;
+            int x1, y1;
+
+            x0 *= scale;
+            y0 *= scale;
+
+            x0 += x_offset;
+            y0 += y_offset;
+
+            if (j < info->width - 1)
+            {
+                x1 = matrix[i][j + 1].x_axis;
+                y1 = matrix[i][j + 1].y_axis;
+                x1 *= scale;
+                y1 *= scale;
+                x1 += x_offset;
+                y1 += y_offset;
+                draw_line(fdf, x0, y0, x1, y1, matrix[i][j].color);
+            }
+
+            if (i < info->length - 1)
+            {
+                x1 = matrix[i + 1][j].x_axis;
+                y1 = matrix[i + 1][j].y_axis;
+                x1 *= scale;
+                y1 *= scale;
+                x1 += x_offset;
+                y1 += y_offset;
+                draw_line(fdf, x0, y0, x1, y1, matrix[i][j].color);
+            }
+        }
     }
 }
 
@@ -149,6 +247,14 @@ int main(int argc, char **argv)
     process_file(argv[1], &array_struct_map);
     print_matrix(array_struct_map, matrix);
     fdf = start_fdf();
+
+    apply_isometric_to_each_struct(array_struct_map, matrix);
+    printf("\n\n *********************************** \n");
+    print_matrix(array_struct_map, matrix);
+    draw_matrix(fdf, array_struct_map, matrix);
+
+    mlx_loop(fdf->mlx);
+
     mlx_terminate(fdf->mlx);
     //free_matrix(array_struct_map, matrix->length + 1);
     free(matrix);
