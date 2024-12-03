@@ -38,7 +38,7 @@ typedef struct s_fdf
     mlx_image_t	*canvas;
 	int		shift_x;
 	int		shift_y;
-    long    zoom;
+    int    zoom;
     int     width;
     int     length;
     t_map_node  **map_node;

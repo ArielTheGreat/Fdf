@@ -41,13 +41,13 @@ void	key_hook(void *param)
 
 	point = (t_fdf *)param;
 	if (mlx_is_key_down(point -> mlx, MLX_KEY_UP))
-		point -> shift_y -= 10;
-	if (mlx_is_key_down(point -> mlx, MLX_KEY_DOWN))
 		point -> shift_y += 10;
+	if (mlx_is_key_down(point -> mlx, MLX_KEY_DOWN))
+		point -> shift_y -= 10;
 	if (mlx_is_key_down(point -> mlx, MLX_KEY_RIGHT))
-		point -> shift_x += 10;
-	if (mlx_is_key_down(point -> mlx, MLX_KEY_LEFT))
 		point -> shift_x -= 10;
+	if (mlx_is_key_down(point -> mlx, MLX_KEY_LEFT))
+		point -> shift_x += 10;
 
 	clear_window(point);
 	draw_matrix(point);

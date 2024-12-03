@@ -180,10 +180,6 @@ void apply_isometric_to_each_struct(t_fdf *fdf_info)
 
 void draw_matrix(t_fdf *fdf_info)
 {
-    int scale = 20; 
-    int x_offset = WIDTH / 3;
-    int y_offset = HEIGHT / 4; 
-
     for (int i = 0; i < fdf_info->length; i++)
     {
         for (int j = 0; j < fdf_info->width; j++)
@@ -192,20 +188,20 @@ void draw_matrix(t_fdf *fdf_info)
             int y0 = fdf_info->map_node[i][j].y_axis;
             int x1, y1;
 
-            x0 *= scale;
-            y0 *= scale;
+            x0 *= fdf_info->zoom;
+            y0 *= fdf_info->zoom;
 
-            x0 += x_offset;
-            y0 += y_offset;
+            x0 += fdf_info->shift_x;
+            y0 += fdf_info->shift_y;
 
             if (j < fdf_info->width - 1)
             {
                 x1 = fdf_info->map_node[i][j + 1].x_axis;
                 y1 = fdf_info->map_node[i][j + 1].y_axis;
-                x1 *= scale;
-                y1 *= scale;
-                x1 += x_offset;
-                y1 += y_offset;
+                x1 *= fdf_info->zoom;
+                y1 *= fdf_info->zoom;
+                x1 += fdf_info->shift_x;
+                y1 += fdf_info->shift_y;
                 draw_line(fdf_info, x0, y0, x1, y1, fdf_info->map_node[i][j].color);
             }
 
@@ -213,10 +209,10 @@ void draw_matrix(t_fdf *fdf_info)
             {
                 x1 = fdf_info->map_node[i + 1][j].x_axis;
                 y1 = fdf_info->map_node[i + 1][j].y_axis;
-                x1 *= scale;
-                y1 *= scale;
-                x1 += x_offset;
-                y1 += y_offset;
+                x1 *= fdf_info->zoom;
+                y1 *= fdf_info->zoom;
+                x1 += fdf_info->shift_x;
+                y1 += fdf_info->shift_y;
                 draw_line(fdf_info, x0, y0, x1, y1, fdf_info->map_node[i][j].color);
             }
         }
@@ -237,6 +233,9 @@ int main(int argc, char **argv)
 
     apply_isometric_to_each_struct(fdf);
     printf("\n\n *********************************** \n");
+    fdf->zoom = 5;
+    fdf->shift_x = 300;
+	fdf->shift_y = 300;
     print_matrix(fdf);
     draw_matrix(fdf);
     mlx_image_to_window(fdf->mlx, fdf->canvas, 0, 0);
