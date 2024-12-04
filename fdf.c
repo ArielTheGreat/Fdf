@@ -160,32 +160,14 @@ void draw_line(t_fdf *fdf, int x0, int y0, int x1, int y1, int color)
     }
 }
 
-void apply_isometric_to_each_struct(t_fdf *fdf_info)
-{
-    for (int i = 0; i < fdf_info->length; i++)
-    {
-        for (int j = 0; j < fdf_info->width; j++)
-        {
-            int x = fdf_info->map_node[i][j].x_axis;
-            int y = fdf_info->map_node[i][j].y_axis;
-            int z = fdf_info->map_node[i][j].z_axis;
-
-            iso_projection(&x, &y, z);
-
-            fdf_info->map_node[i][j].x_axis = x;
-            fdf_info->map_node[i][j].y_axis = y;
-        }
-    }
-}
-
 void draw_matrix(t_fdf *fdf_info)
 {
-    for (int i = 0; i < fdf_info->length; i++)
+    for (int y = 0; y < fdf_info->length; y++)
     {
-        for (int j = 0; j < fdf_info->width; j++)
+        for (int x = 0; x < fdf_info->width; x++)
         {
-            int x0 = fdf_info->map_node[i][j].x_axis;
-            int y0 = fdf_info->map_node[i][j].y_axis;
+            int x0 = fdf_info->map_node[y][x].x_axis;
+            int y0 = fdf_info->map_node[y][x].y_axis;
             int x1, y1;
 
             x0 *= fdf_info->zoom;
@@ -194,26 +176,26 @@ void draw_matrix(t_fdf *fdf_info)
             x0 += fdf_info->shift_x;
             y0 += fdf_info->shift_y;
 
-            if (j < fdf_info->width - 1)
+            if (y < fdf_info->width - 1)
             {
-                x1 = fdf_info->map_node[i][j + 1].x_axis;
-                y1 = fdf_info->map_node[i][j + 1].y_axis;
+                x1 = fdf_info->map_node[y][x + 1].x_axis;
+                y1 = fdf_info->map_node[y][x + 1].y_axis;
                 x1 *= fdf_info->zoom;
                 y1 *= fdf_info->zoom;
                 x1 += fdf_info->shift_x;
                 y1 += fdf_info->shift_y;
-                draw_line(fdf_info, x0, y0, x1, y1, fdf_info->map_node[i][j].color);
+                draw_line(fdf_info, x0, y0, x1, y1, fdf_info->map_node[y][x].color);
             }
 
-            if (i < fdf_info->length - 1)
+            if (x < fdf_info->length - 1)
             {
-                x1 = fdf_info->map_node[i + 1][j].x_axis;
-                y1 = fdf_info->map_node[i + 1][j].y_axis;
+                x1 = fdf_info->map_node[y + 1][x].x_axis;
+                y1 = fdf_info->map_node[y + 1][x].y_axis;
                 x1 *= fdf_info->zoom;
                 y1 *= fdf_info->zoom;
                 x1 += fdf_info->shift_x;
                 y1 += fdf_info->shift_y;
-                draw_line(fdf_info, x0, y0, x1, y1, fdf_info->map_node[i][j].color);
+                draw_line(fdf_info, x0, y0, x1, y1, fdf_info->map_node[y][x].color);
             }
         }
     }
@@ -231,12 +213,9 @@ int main(int argc, char **argv)
     fdf->mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
     fdf->canvas = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
 
-    apply_isometric_to_each_struct(fdf);
-    printf("\n\n *********************************** \n");
     fdf->zoom = 5;
     fdf->shift_x = 300;
 	fdf->shift_y = 300;
-    print_matrix(fdf);
     draw_matrix(fdf);
     mlx_image_to_window(fdf->mlx, fdf->canvas, 0, 0);
     mlx_loop_hook(fdf->mlx, &hook, fdf);
