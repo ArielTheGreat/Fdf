@@ -12,57 +12,100 @@
 
 #include "fdf.h"
 
-void set_length_matrix(t_fdf *matrix, char* filename)
+void	set_length_matrix(t_fdf *matrix, char *filename)
 {
-    int i;
-    int fd;
+	int		i;
+	int		fd;
+	char	*line;
 
-    fd = open(filename, O_RDONLY);
-    i = 0;
-    while(get_next_line(fd))
-        i++;
-    (matrix)->length = i;
-    close(fd);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return ;
+	}
+	i = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+		i++;
+	}
+	matrix->length = i;
+	close(fd);
 }
 
-void    set_width_matrix(t_fdf *matrix, char *filename)
+static int	count_words_in_line(char *line)
 {
-    char *first_line;
-    char **words;
-    int i;
-    int fd;
+	char	**words;
+	int		count;
 
-    i = 0;
-    fd = open(filename, O_RDONLY);
-    first_line = get_next_line(fd);
-    words = ft_split(first_line, ' ');
-    while(words[i])
-        i++;
-    (matrix)->width = i;
-    free_split_arrays(words);
-    close(fd);
+	words = ft_split(line, ' ');
+	if (!words)
+	{
+		perror("Error splitting line");
+		return (-1);
+	}
+	count = 0;
+	while (words[count])
+		count++;
+	free_split_arrays(words);
+	return (count);
 }
 
-void allocate_memory(t_fdf *fdf_info)
+void	set_width_matrix(t_fdf *matrix, char *filename)
 {
-    int i;
+	char	*first_line;
+	int		fd;
 
-    i = 0;
-    fdf_info->map_node = malloc(sizeof(t_map_node *) * fdf_info->length);
-    while(i < fdf_info->length)
-    {
-        fdf_info->map_node[i] = malloc(sizeof(t_map_node) * fdf_info->width);
-        i++;
-    }
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return ;
+	}
+	first_line = get_next_line(fd);
+	close(fd);
+	if (!first_line)
+		return ;
+	matrix->width = count_words_in_line(first_line);
+	free(first_line);
 }
 
-t_fdf    *allocate_memory_and_set_memory(char* filename)
+void	allocate_memory(t_fdf *fdf_info)
 {
-    static t_fdf fdf_info;
+	int	i;
 
-    set_width_matrix(&fdf_info, filename);
-    set_length_matrix(&fdf_info, filename);
-    if (fdf_info.width > 0 && fdf_info.length > 0)
-        allocate_memory(&fdf_info);
-    return (&fdf_info);
+	i = 0;
+	fdf_info->map_node = malloc(sizeof(t_map_node *) * fdf_info->length);
+	if (!fdf_info->map_node)
+	{
+		perror("Memory allocation error");
+		return ;
+	}
+	while (i < fdf_info->length)
+	{
+		fdf_info->map_node[i] = malloc(sizeof(t_map_node) * fdf_info->width);
+		if (!fdf_info->map_node[i])
+		{
+			perror("Memory allocation error");
+			while (i-- > 0)
+				free(fdf_info->map_node[i]);
+			free(fdf_info->map_node);
+			return ;
+		}
+		i++;
+	}
+}
+
+t_fdf	*allocate_memory_and_set_memory(char *filename)
+{
+	static t_fdf	fdf_info;
+
+	set_width_matrix(&fdf_info, filename);
+	set_length_matrix(&fdf_info, filename);
+	if (fdf_info.width > 0 && fdf_info.length > 0)
+		allocate_memory(&fdf_info);
+	return (&fdf_info);
 }

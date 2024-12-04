@@ -12,18 +12,21 @@
 
 #include "fdf.h"
 
-int check_file_extension(char *filename)
+int	check_file_extension(char *filename)
 {
-    char **filename_extension;
+	char	**filename_extension;
 
-    filename_extension = ft_split(filename,'.');
-
-    if (ft_strncmp(filename_extension[1], "fdf", 4) != 0)
-    {
-        free_split_arrays(filename_extension);
-        return (0);
-    }
-
-    free_split_arrays(filename_extension);
-    return (1);
+	filename_extension = ft_split(filename, '.');
+	if (!filename_extension || !filename_extension[1])
+	{
+		free_split_arrays(filename_extension);
+		return (0);
+	}
+	if (ft_strncmp(filename_extension[1], "fdf", 4) != 0)
+	{
+		free_split_arrays(filename_extension);
+		return (0);
+	}
+	free_split_arrays(filename_extension);
+	return (1);
 }

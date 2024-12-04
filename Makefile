@@ -13,7 +13,8 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = fdf.c check_file_extension.c free_functions.c memory_allocation.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c hooks.c
+SRCS = fdf.c check_file_extension.c free_functions.c memory_allocation.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c hooks.c \
+		draw.c set_number_into_array.c utils.c transform_color_int.c
 
 OBJS = ${SRCS:.c=.o}
 INCLUDE		=	-I.

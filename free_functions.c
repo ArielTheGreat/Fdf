@@ -12,22 +12,28 @@
 
 #include "fdf.h"
 
-void free_split_arrays(char **filename_extension)
+void	free_split_arrays(char **filename_extension)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(filename_extension[i])
-    {
-        free(filename_extension[i]);
-        i++;
-    }
-    free(filename_extension);
+	i = 0;
+	while (filename_extension[i])
+	{
+		free(filename_extension[i]);
+		i++;
+	}
+	free(filename_extension);
 }
 
-void free_matrix(int **matrix_numbers, int length) {
-    for (int i = 0; i < length; i++) {
-        free(matrix_numbers[i]);
-    }
-    free(matrix_numbers);
+void	free_matrix(int **matrix_numbers, int length)
+{
+	int	i;
+
+	i = 0;
+	while (i < length)
+	{
+		free(matrix_numbers[i]);
+		i++;
+	}
+	free(matrix_numbers);
 }
