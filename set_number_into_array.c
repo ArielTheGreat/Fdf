@@ -15,7 +15,7 @@
 char *get_color_hex(char *color)
 {
 	if (color == NULL)
-		return ("20FFa0");
+		return ("ffffff");
 
 	int x;
 	x = 2;
