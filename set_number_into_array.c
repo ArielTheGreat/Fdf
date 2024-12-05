@@ -12,6 +12,24 @@
 
 #include "fdf.h"
 
+char *get_color_hex(char *color)
+{
+	if (color == NULL)
+		return ("20FFa0");
+
+	int x;
+	x = 2;
+	int i = 0;
+	char *str = malloc(sizeof(char) * 7);
+	while(color[x] != '\0')
+	{
+		str[i] = color[x];
+		i++;
+		x++;
+	}
+	return (str);
+}
+
 void	set_numbers(char *str, t_map_node *matrix_row)
 {
 	char	**words;
@@ -34,7 +52,7 @@ void	set_numbers(char *str, t_map_node *matrix_row)
 			break ;
 		}
 		matrix_row[i].z_axis = ft_atoi(color_split[0]);
-		matrix_row[i].color = get_color_int(color_split[1]);
+		matrix_row[i].color = get_color_hex(color_split[1]);
 		free_split_arrays(color_split);
 		i++;
 	}

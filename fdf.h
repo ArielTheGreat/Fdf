@@ -22,12 +22,11 @@
 
 # define WIDTH				1920
 # define HEIGHT				1080
-# define DEFAULT_COLOR		16777215 // White
 
 typedef struct map_node
 {
 	int		z_axis;
-	int		color;
+	char*		color;
 }	t_map_node;
 
 typedef struct s_fdf
@@ -69,12 +68,10 @@ t_fdf	*allocate_memory_and_set_memory(char *filename);
 /* Drawing */
 void	draw_matrix(t_fdf *fdf_info);
 void	wu_algo(t_fdf *fdf_info, int *begin, int *end);
-void	draw_pix(t_fdf *point, int *begin, int *end);
+void	draw_pix(t_fdf *point, int *begin, int *end, char *color);
 
 /* Color Conversion */
-int		get_color_int(char *color_element);
-int		convert_hex_to_int(char *color_element);
-int		get_index_hex(char character, int size_str);
+uint32_t	get_color_int(char *color_element);
 int		get_base_multiplication(int size_str);
 
 /* Line Parsing */

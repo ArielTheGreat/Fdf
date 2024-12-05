@@ -12,54 +12,67 @@
 
 #include "fdf.h"
 
-int	get_base_multiplication(int size_str)
-{
-	int	result;
-	int	i;
+#include <stdint.h>
+#include <stddef.h>
+#include <ctype.h>
+#include <errno.h>
 
-	i = 0;
-	result = 1;
-	while (i < size_str)
+int	ft_isspace(int c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || 
+			c == '\v' || c == '\f' || c == '\r');
+}
+
+uint32_t	ft_strtol(const char *str, char **endptr, int base)
+{
+	uint32_t	result;
+	int			digit;
+
+	if (!str || (base != 10 && base != 16))
 	{
-		result = result * 16;
-		i++;
+		return (0);
 	}
-	return (result);
-}
+	while (ft_isspace((unsigned char)*str))
+		str++;
+	if (base == 16 && str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+		str += 2;
 
-int	get_index_hex(char character, int size_str)
-{
-	char	*hex_values;
-	int		i;
-
-	hex_values = "0123456789ABCDEF";
-	i = 0;
-	while (hex_values[i] != character)
-		i++;
-	return (i * get_base_multiplication(size_str));
-}
-
-int	convert_hex_to_int(char *color_element)
-{
-	int	i;
-	int	result;
-	int	size_str;
-
-	i = 2;
 	result = 0;
-	size_str = ft_strlen(color_element + i) - 1;
-	while (color_element[i] != '\0')
+	while (*str)
 	{
-		result = result + get_index_hex(color_element[i], size_str);
-		i++;
-		size_str--;
+		if (ft_isdigit((unsigned char)*str))
+			digit = *str - '0';
+		else if (ft_isalpha((unsigned char)*str))
+			digit = ft_tolower((unsigned char)*str) - 'a' + 10;
+		else
+			break;
+		if (digit >= base)
+			break;
+		result = result * base + digit;
+		str++;
 	}
+	if (endptr)
+		*endptr = (char *)str;
 	return (result);
 }
 
-int	get_color_int(char *color_element)
+
+uint32_t	hex_to_uint32(const char *hex)
 {
-	if (color_element && ft_strlen(color_element) > 2)
-		return (convert_hex_to_int(color_element));
-	return (DEFAULT_COLOR);
+	uint32_t	rgb;
+	uint32_t	abgr;
+
+	if (!hex || ft_strlen(hex) != 6)
+		return (0xFFFFFFFF);
+
+	rgb = (uint32_t)ft_strtol(hex, NULL, 16);
+
+	abgr = 0xFF000000 | ((rgb & 0xFF) << 16) | (rgb & 0xFF00) | ((rgb >> 16) & 0xFF);
+
+	return (abgr);
+}
+
+uint32_t	get_color_int(char *color_element)
+{
+	return (hex_to_uint32(color_element));
 }
