@@ -12,6 +12,15 @@
 
 #include "fdf.h"
 
+void set_values_fdf(t_fdf *fdf)
+{
+	fdf->mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
+	fdf->canvas = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
+	fdf->zoom = 5;
+	fdf->shift_x = 300;
+	fdf->shift_y = 300;
+}
+
 int	main(int argc, char **argv)
 {
 	t_fdf	*fdf;
@@ -28,11 +37,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	process_file(argv[1], fdf);
-	fdf->mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
-	fdf->canvas = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
-	fdf->zoom = 5;
-	fdf->shift_x = 300;
-	fdf->shift_y = 300;
+	set_values_fdf(fdf);
 	draw_matrix(fdf);
 	mlx_image_to_window(fdf->mlx, fdf->canvas, 0, 0);
 	mlx_loop_hook(fdf->mlx, &hook, fdf);

@@ -14,19 +14,27 @@
 
 char *get_color_hex(char *color)
 {
-	if (color == NULL)
-		return ("ffffff");
-
 	int x;
-	x = 2;
-	int i = 0;
+	int i;
+
+	if (color == NULL)
+		return (ft_strdup("ffffff"));
+
 	char *str = malloc(sizeof(char) * 7);
-	while(color[x] != '\0')
+	if (!str)
+	{
+		perror("Memory allocation error for color hex");
+		return (NULL);
+	}
+	x = 2;
+	i = 0;
+	while(color[x] != '\0' && i < 6)
 	{
 		str[i] = color[x];
 		i++;
 		x++;
 	}
+	str[i] = '\0';
 	return (str);
 }
 
@@ -53,6 +61,12 @@ void	set_numbers(char *str, t_map_node *matrix_row)
 		}
 		matrix_row[i].z_axis = ft_atoi(color_split[0]);
 		matrix_row[i].color = get_color_hex(color_split[1]);
+		if (!matrix_row[i].color)
+		{
+			perror("Error allocating memory for color");
+			free_split_arrays(color_split);
+			break;
+		}
 		free_split_arrays(color_split);
 		i++;
 	}
