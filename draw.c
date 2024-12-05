@@ -12,6 +12,11 @@
 
 #include "fdf.h"
 
+uint32_t	get_color_int(char *color_element)
+{
+	return (hex_to_uint32(color_element));
+}
+
 void	draw_pix(t_fdf *point, int *begin, int *end, char *color)
 {
 	int	err;

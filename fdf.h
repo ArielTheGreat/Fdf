@@ -73,7 +73,7 @@ void		wu_algo(t_fdf *fdf_info, int *begin, int *end);
 void		draw_pix(t_fdf *point, int *begin, int *end, char *color);
 
 /* Color Conversion */
-uint32_t	get_color_int(char *color_element);
+uint32_t	hex_to_uint32(char *hex);
 int			get_base_multiplication(int size_str);
 
 /* Line Parsing */
