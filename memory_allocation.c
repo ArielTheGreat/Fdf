@@ -71,7 +71,7 @@ void	set_width_matrix(t_fdf *matrix, char *filename)
 	{
 		perror("Error reading first line");
 		matrix->width = 0;
-		return;
+		return ;
 	}
 	matrix->width = count_words_in_line(first_line);
 	free(first_line);
@@ -114,7 +114,6 @@ t_fdf	*allocate_memory_and_set_memory(char *filename)
 		perror("Memory allocation error for fdf_info");
 		return (NULL);
 	}
-
 	fdf_info->width = 0;
 	fdf_info->length = 0;
 	fdf_info->map_node = NULL;

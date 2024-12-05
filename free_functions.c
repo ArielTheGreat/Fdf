@@ -30,8 +30,7 @@ void	free_matrix(t_map_node **map_node, int length)
 	int	i;
 
 	if (!map_node)
-		return;
-
+		return ;
 	i = 0;
 	while (i < length)
 	{

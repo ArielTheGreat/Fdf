@@ -42,8 +42,8 @@ void	wu_algo(t_fdf *fdf_info, int *begin, int *end)
 {
 	int	z;
 	int	z1;
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = begin[0];
 	y = begin[1];
