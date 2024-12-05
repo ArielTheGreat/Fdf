@@ -12,11 +12,6 @@
 
 #include "fdf.h"
 
-#include <stdint.h>
-#include <stddef.h>
-#include <ctype.h>
-#include <errno.h>
-
 int	ft_isspace(int c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || 
