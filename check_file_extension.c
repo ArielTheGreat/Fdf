@@ -14,19 +14,18 @@
 
 int	check_file_extension(char *filename)
 {
-	char	**filename_extension;
+	char	*filename_extension;
 
-	filename_extension = ft_split(filename, '.');
-	if (!filename_extension || !filename_extension[1])
-	{
-		free_split_arrays(filename_extension);
-		return (0);
-	}
-	if (ft_strncmp(filename_extension[1], "fdf", 4) != 0)
-	{
-		free_split_arrays(filename_extension);
-		return (0);
-	}
-	free_split_arrays(filename_extension);
+	if (!filename)
+        return 0;
+
+	while ((filename = ft_strchr(filename, '.')) != NULL)
+    {
+        filename_extension = filename;
+        filename++;
+    }
+
+	if (!filename_extension || ft_strncmp(filename_extension + 1, "fdf", 3) != 0 || filename_extension[4] != '\0')
+        return 0;
 	return (1);
 }
