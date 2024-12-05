@@ -36,20 +36,25 @@ void	free_before_end(t_fdf *fdf)
 	free(fdf);
 }
 
+
 int	main(int argc, char **argv)
 {
 	t_fdf	*fdf;
 
 	if (argc != 2 || check_file_extension(argv[1]) == 0)
+	{
+		system("leaks fdf");
 		return (ft_putendl_fd("Usage: ./fdf <file.fdf>", 2), EXIT_FAILURE);
+	}
 	fdf = allocate_memory_and_set_memory(argv[1]);
 	if (!fdf || !fdf->map_node)
-		return (ft_putendl_fd("Err:Failed memory allocation", 2), EXIT_FAILURE);
+		return (system("leaks fdf"), ft_putendl_fd("Err:Failed memory allocation", 2), EXIT_FAILURE);
 	process_file(argv[1], fdf);
 	set_values_fdf(fdf);
 	if (!fdf->mlx)
 	{
 		ft_putendl_fd("Err: Failed to initialize mlx.", 2);
+		system("leaks fdf");
 		return (free_before_end(fdf), EXIT_FAILURE);
 	}
 	draw_matrix(fdf);
@@ -57,9 +62,11 @@ int	main(int argc, char **argv)
 	{
 		ft_putendl_fd("Err: Failed to render image to window.", 2);
 		mlx_terminate(fdf->mlx);
+		system("leaks fdf");
 		return (free_before_end(fdf), EXIT_FAILURE);
 	}
 	add_hooks(fdf);
 	free_before_end(fdf);
+	system("leaks fdf");
 	return (0);
 }
