@@ -25,15 +25,23 @@ void	free_split_arrays(char **filename_extension)
 	free(filename_extension);
 }
 
-void	free_matrix(int **matrix_numbers, int length)
+void	free_matrix(t_map_node **map_node, int length)
 {
 	int	i;
+
+	if (!map_node)
+		return;
 
 	i = 0;
 	while (i < length)
 	{
-		free(matrix_numbers[i]);
+		if (map_node[i])
+		{
+			free(map_node[i]);
+			map_node[i] = NULL;
+		}
 		i++;
 	}
-	free(matrix_numbers);
+	free(map_node);
+	map_node = NULL;
 }

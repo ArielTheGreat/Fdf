@@ -38,14 +38,28 @@ int	main(int argc, char **argv)
 	}
 	process_file(argv[1], fdf);
 	set_values_fdf(fdf);
+	if (!fdf->mlx)
+	{
+		ft_putendl_fd("Error: Failed to initialize mlx.", 2);
+		free_matrix(fdf->map_node, fdf->length);
+		free(fdf);
+		return (EXIT_FAILURE);
+	}
 	draw_matrix(fdf);
-	mlx_image_to_window(fdf->mlx, fdf->canvas, 0, 0);
+	if (mlx_image_to_window(fdf->mlx, fdf->canvas, 0, 0) < 0)
+	{
+		ft_putendl_fd("Error: Failed to render image to window.", 2);
+		mlx_terminate(fdf->mlx);
+		free_matrix(fdf->map_node, fdf->length);
+		free(fdf);
+		return (EXIT_FAILURE);
+	}
 	mlx_loop_hook(fdf->mlx, &hook, fdf);
 	mlx_scroll_hook(fdf->mlx, &mouse_hook, fdf);
 	mlx_loop_hook(fdf->mlx, &key_hook, fdf);
 	mlx_loop(fdf->mlx);
 	mlx_terminate(fdf->mlx);
-	// free_matrix(array_struct_map, matrix->length + 1);
-	// free(fdf);
+	free_matrix(fdf->map_node, fdf->length);
+	free(fdf);
 	return (0);
 }
