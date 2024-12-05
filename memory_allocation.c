@@ -106,14 +106,21 @@ void	allocate_memory(t_fdf *fdf_info)
 
 t_fdf	*allocate_memory_and_set_memory(char *filename)
 {
-	static t_fdf	fdf_info;
+	t_fdf	*fdf_info;
 
-	fdf_info.width = 0;
-	fdf_info.length = 0;
-	fdf_info.map_node = NULL;
-	set_width_matrix(&fdf_info, filename);
-	set_length_matrix(&fdf_info, filename);
-	if (fdf_info.width > 0 && fdf_info.length > 0)
-		allocate_memory(&fdf_info);
-	return (&fdf_info);
+	fdf_info = malloc(sizeof(t_fdf));
+	if (!fdf_info)
+	{
+		perror("Memory allocation error for fdf_info");
+		return (NULL);
+	}
+
+	fdf_info->width = 0;
+	fdf_info->length = 0;
+	fdf_info->map_node = NULL;
+	set_width_matrix(fdf_info, filename);
+	set_length_matrix(fdf_info, filename);
+	if (fdf_info->width > 0 && fdf_info->length > 0)
+		allocate_memory(fdf_info);
+	return (fdf_info);
 }
