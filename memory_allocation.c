@@ -68,7 +68,11 @@ void	set_width_matrix(t_fdf *matrix, char *filename)
 	first_line = get_next_line(fd);
 	close(fd);
 	if (!first_line)
-		return ;
+	{
+		perror("Error reading first line");
+		matrix->width = 0;
+		return;
+	}
 	matrix->width = count_words_in_line(first_line);
 	free(first_line);
 }
@@ -90,9 +94,10 @@ void	allocate_memory(t_fdf *fdf_info)
 		if (!fdf_info->map_node[i])
 		{
 			perror("Memory allocation error");
-			while (i-- > 0)
+			while (--i >= 0)
 				free(fdf_info->map_node[i]);
 			free(fdf_info->map_node);
+			fdf_info->map_node = NULL;
 			return ;
 		}
 		i++;
@@ -103,6 +108,9 @@ t_fdf	*allocate_memory_and_set_memory(char *filename)
 {
 	static t_fdf	fdf_info;
 
+	fdf_info.width = 0;
+	fdf_info.length = 0;
+	fdf_info.map_node = NULL;
 	set_width_matrix(&fdf_info, filename);
 	set_length_matrix(&fdf_info, filename);
 	if (fdf_info.width > 0 && fdf_info.length > 0)

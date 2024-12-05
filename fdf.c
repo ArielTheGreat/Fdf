@@ -17,8 +17,16 @@ int	main(int argc, char **argv)
 	t_fdf	*fdf;
 
 	if (argc != 2 || check_file_extension(argv[1]) == 0)
-		return (0);
+	{
+		ft_putendl_fd("Usage: ./fdf <file.fdf>", 2);
+		return (EXIT_FAILURE);
+	}
 	fdf = allocate_memory_and_set_memory(argv[1]);
+	if (!fdf || !fdf->map_node)
+	{
+		ft_putendl_fd("Error: Failed to allocate memory or set matrix dimensions.", 2);
+		return (EXIT_FAILURE);
+	}
 	process_file(argv[1], fdf);
 	fdf->mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
 	fdf->canvas = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
