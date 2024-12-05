@@ -17,15 +17,16 @@ int	check_file_extension(char *filename)
 	char	*filename_extension;
 
 	if (!filename)
-        return 0;
-
-	while ((filename = ft_strchr(filename, '.')) != NULL)
-    {
-        filename_extension = filename;
-        filename++;
-    }
-
-	if (!filename_extension || ft_strncmp(filename_extension + 1, "fdf", 3) != 0 || filename_extension[4] != '\0')
-        return 0;
+		return (0);
+	filename_extension = ft_strchr(filename, '.');
+	while (filename != NULL)
+	{
+		filename_extension = filename;
+		filename++;
+	}
+	if (!filename_extension
+		|| ft_strncmp(filename_extension + 1, "fdf", 3) != 0
+		|| filename_extension[4] != '\0')
+		return (0);
 	return (1);
 }
