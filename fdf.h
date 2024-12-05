@@ -35,8 +35,6 @@ typedef struct s_fdf
 	mlx_image_t	*canvas;
 	int			shift_x;
 	int			shift_y;
-	int			*sx;
-	int			*sy;
 	int			zoom;
 	int			width;
 	int			length;
@@ -78,7 +76,7 @@ int		get_base_multiplication(int size_str);
 void	set_numbers(char *str, t_map_node *matrix_row);
 
 /* Steep Calculation */
-int		get_steep_sx(int *x, int *x1, t_fdf *point);
-int		get_steep_sy(int *y, int *y1, t_fdf *point);
+int		get_steep_sx(int *x, int *x1);
+int		get_steep_sy(int *y, int *y1);
 
 #endif

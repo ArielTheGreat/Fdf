@@ -34,24 +34,18 @@ void	shift(t_fdf *point, int *begin, int *end)
 	end[1] += (point)->shift_y;
 }
 
-int	get_steep_sx(int *x, int *x1, t_fdf *point)
+int	get_steep_sx(int *x, int *x1)
 {
-	point->sx = malloc(sizeof(int));
-	*(point -> sx) = 0;
 	if (*x < *x1)
-		*(point->sx) = 1;
+		return (1);
 	else
-		*(point->sx) = -1;
-	return (*(point->sx));
+		return (-1);
 }
 
-int	get_steep_sy(int *y, int *y1, t_fdf *point)
+int	get_steep_sy(int *y, int *y1)
 {
-	point->sy = malloc(sizeof(int));
-	*(point->sy) = 0;
 	if (*y < *y1)
-		*(point->sy) = 1;
+		return (1);
 	else
-		*(point->sy) = -1;
-	return (*(point->sy));
+		return (-1);
 }

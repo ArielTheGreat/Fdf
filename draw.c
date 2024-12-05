@@ -28,12 +28,12 @@ void	draw_pix(t_fdf *point, int *begin, int *end, char *color)
 		if (err > 0)
 		{
 			err -= dy;
-			begin[0] += get_steep_sx(&begin[0], &end[0], point);
+			begin[0] += get_steep_sx(&begin[0], &end[0]);
 		}
 		else
 		{
 			err += dx;
-			begin[1] += get_steep_sy(&begin[1], &end[1], point);
+			begin[1] += get_steep_sy(&begin[1], &end[1]);
 		}
 	}
 }
