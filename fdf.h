@@ -65,7 +65,7 @@ void		process_file(const char *filename, t_fdf *fdf_info);
 /* Memory Management */
 void		allocate_memory(t_fdf *fdf_info);
 t_fdf		*allocate_memory_and_set_memory(char *filename);
-void		free_matrix(t_map_node **map_node, int length);
+void		free_matrix(t_map_node **map_node, int length, int width);
 
 /* Drawing */
 void		draw_matrix(t_fdf *fdf_info);

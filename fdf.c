@@ -32,7 +32,7 @@ void	add_hooks(t_fdf *fdf)
 
 void	free_before_end(t_fdf *fdf)
 {
-	free_matrix(fdf->map_node, fdf->length);
+	free_matrix(fdf->map_node, fdf->length, fdf->width);
 	free(fdf);
 }
 

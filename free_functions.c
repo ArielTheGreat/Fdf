@@ -26,24 +26,23 @@ void	free_split_arrays(char **filename_extension)
 }
 
 
-void free_matrix(t_map_node **map_node, int length)
+void free_matrix(t_map_node **map_node, int length, int width)
 {
     int i;
+    int j;
 
     if (!map_node)
         return;
 
     for (i = 0; i < length; i++)
     {
-        if (map_node[i])
+        for (j = 0; j < width; j++)
         {
-            if (map_node[i]->color)
+            if (map_node[i][j].color)
             {
-                free(map_node[i]->color);
-                map_node[i]->color = NULL;
+                free(map_node[i][j].color);
+                map_node[i][j].color = NULL;
             }
-            free(map_node[i]);
-            map_node[i] = NULL;
         }
     }
 
