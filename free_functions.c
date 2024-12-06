@@ -44,6 +44,8 @@ void free_matrix(t_map_node **map_node, int length, int width)
                 map_node[i][j].color = NULL;
             }
         }
+        free(map_node[i]);
+        map_node[i] = NULL;
     }
 
     free(map_node);
