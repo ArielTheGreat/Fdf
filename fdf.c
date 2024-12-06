@@ -36,7 +36,6 @@ void	free_before_end(t_fdf *fdf)
 	free(fdf);
 }
 
-
 int	main(int argc, char **argv)
 {
 	t_fdf	*fdf;
