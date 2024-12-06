@@ -45,7 +45,7 @@ int	main(int argc, char **argv)
 		return (ft_putendl_fd("Usage: ./fdf <file.fdf>", 2), EXIT_FAILURE);
 	fdf = allocate_memory_and_set_memory(argv[1]);
 	if (!fdf || !fdf->map_node)
-		return (system("leaks fdf"), ft_putendl_fd("Err:Failed memory allocation", 2), EXIT_FAILURE);
+		return (ft_putendl_fd("Err:Failed memory allocation", 2), EXIT_FAILURE);
 	process_file(argv[1], fdf);
 	set_values_fdf(fdf);
 	if (!fdf->mlx)
