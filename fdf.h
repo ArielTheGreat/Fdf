@@ -69,7 +69,7 @@ void		free_matrix(t_map_node **map_node, int length, int width);
 
 /* Drawing */
 void		draw_matrix(t_fdf *fdf_info);
-void		wu_algo(t_fdf *fdf_info, int *begin, int *end);
+void		do_algo(t_fdf *fdf_info, int *begin, int *end);
 void		draw_pix(t_fdf *point, int *begin, int *end, char *color);
 
 /* Color Conversion */

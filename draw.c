@@ -43,7 +43,7 @@ void	draw_pix(t_fdf *point, int *begin, int *end, char *color)
 	}
 }
 
-void	wu_algo(t_fdf *fdf_info, int *begin, int *end)
+void	do_algo(t_fdf *fdf_info, int *begin, int *end)
 {
 	int	z;
 	int	z1;
@@ -73,9 +73,9 @@ void	draw_matrix(t_fdf *fdf_info)
 		while (x < fdf_info->width)
 		{
 			if (x < fdf_info->width - 1)
-				wu_algo(fdf_info, (int []){x, y}, (int []){x + 1, y});
+				do_algo(fdf_info, (int []){x, y}, (int []){x + 1, y});
 			if (y < fdf_info->length - 1)
-				wu_algo(fdf_info, (int []){x, y}, (int []){x, y + 1});
+				do_algo(fdf_info, (int []){x, y}, (int []){x, y + 1});
 			x++;
 		}
 		y++;
